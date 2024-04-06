@@ -1,0 +1,3 @@
+DROP TABLE poems CASCADE;
+
+DROP TABLE authors CASCADE;
