@@ -2,3 +2,7 @@ pg-data/
 .env
 .env.local
 .DS_Store
+
+# built binaries
+dev
+app

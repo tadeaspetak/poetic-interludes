@@ -106,6 +106,7 @@ func getPoemByID(c *gin.Context) {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "poem not found"})
 	} else {
 		c.IndentedJSON(http.StatusOK, poems[0])
+		// CompileDaemon -build="go build -o api" -command="./api"
 
 	}
 
