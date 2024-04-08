@@ -616,6 +616,10 @@ video {
   margin-top: 1.25rem;
 }
 
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
 .flex {
   display: flex;
 }
@@ -656,6 +660,10 @@ video {
   width: 100vw;
 }
 
+.w-full {
+  width: 100%;
+}
+
 .max-w-max {
   max-width: -moz-max-content;
   max-width: max-content;
@@ -689,7 +697,7 @@ video {
 }
 
 .animate-fadeIn {
-  animation: fadeIn .2s ease-in-out;
+  animation: fadeIn .1s ease-in-out;
 }
 
 @keyframes fadeOut {
@@ -703,15 +711,23 @@ video {
 }
 
 .animate-fadeOut {
-  animation: fadeOut .2s ease-in-out;
+  animation: fadeOut .1s ease-in-out;
 }
 
 .items-center {
   align-items: center;
 }
 
+.justify-end {
+  justify-content: flex-end;
+}
+
 .justify-center {
   justify-content: center;
+}
+
+.justify-items-end {
+  justify-items: end;
 }
 
 .gap-x-1 {
