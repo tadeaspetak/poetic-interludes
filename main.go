@@ -10,6 +10,7 @@ import (
 
 	"github.com/georgysavva/scany/v2/sqlscan"
 	"github.com/gin-gonic/gin"
+
 	"github.com/joho/godotenv"
 	"github.com/walles/env"
 )
@@ -40,22 +41,35 @@ func main() {
 	defer db.Connection.Close()
 
 	router := gin.Default()
+	router.Static("/static", "./static")
+
+	router.LoadHTMLGlob("templates/*")
+
+	// api
 	router.GET("/poems", getPoems)
 	router.POST("/poems", addPoem)
 	router.GET("/poems/:id", getPoemByID)
+
+	// views
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.tmpl", gin.H{
+			"title": "poetic interludes",
+			"poems": getDbPoems(),
+		})
+	})
 
 	router.Run("localhost:" + strconv.Itoa(env.GetOr("PORT", strconv.Atoi, 8080)))
 }
 
 func loadEnv() {
-	err := godotenv.Load(".env.local")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 }
 
-func getPoems(c *gin.Context) {
-	var poems []*poem
+func getDbPoems() []poem {
+	var poems []poem
 	err := sqlscan.Select(context.Background(), db.Connection, &poems /* sql */, `
 		SELECT
 		  p.id,
@@ -68,12 +82,16 @@ func getPoems(c *gin.Context) {
 	if err != nil {
 		// TODO: proper error handling
 		fmt.Println("Error fetching poems", err)
-	} else {
-		c.IndentedJSON(http.StatusOK, poems)
 	}
+
+	return poems
 }
 
-// postAlbums adds an album from JSON received in the request body.
+func getPoems(c *gin.Context) {
+	poems := getDbPoems()
+	c.IndentedJSON(http.StatusOK, poems)
+}
+
 func addPoem(c *gin.Context) {
 	var newPoem poem
 
@@ -106,8 +124,6 @@ func getPoemByID(c *gin.Context) {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "poem not found"})
 	} else {
 		c.IndentedJSON(http.StatusOK, poems[0])
-		// CompileDaemon -build="go build -o api" -command="./api"
-
 	}
 
 }

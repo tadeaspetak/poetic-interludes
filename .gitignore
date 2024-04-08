@@ -1,6 +1,8 @@
 pg-data/
+node_modules/
+
+package-lock.json
 .env
-.env.local
 .DS_Store
 
 # built binaries

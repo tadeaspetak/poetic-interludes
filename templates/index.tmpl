@@ -1,0 +1,16 @@
+{{ define "poem"}}
+<li>{{ .ID }}: {{ .AuthorName }}, {{ .Title }}</li>
+{{ end }}
+
+{{template "header.tmpl" .}}
+{{template "menu.tmpl" .}}
+<div>
+  <button class="text-blue-500">
+    {{template "iconUser"}}
+  </button>
+</div>
+<h1 class="text-red-600">{{ .title }}</h1>
+{{ range $key, $value := .poems }}
+{{ template "poem" $value }}
+{{ end }}
+{{template "footer.tmpl" .}}
